@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #task-input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 50%;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+            text-align: left;
+            text-wrap: wrap;
+            word-wrap: normal;
+            white-space: pre-line;
+
+        }
+
+        li {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-wrap: wrap;
+            word-wrap: break-word;
+            white-space: pre-line;
+
+
+        }
+
+        .complete-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .complete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <h1>To-Do List</h1>
+        </div>
+        <div>
+            <input type="text" placeholder="Add Task" id="task-input" />
+            <button onclick={createNewListItem()}>Add</button>
+            <div>
+                <ul id="list"></ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+
+    let taskidSuffix = 0
+
+    let completeTask = (taskId) => { // removes task from list
+
+        const id = this.event.target.id // get id of button that fired the event
+        const idSuffix = id.slice(-1) // grab identifier from id
+
+        const listId = "li" + idSuffix //create identifer for list item
+
+        const listItem = document.getElementById("li" + idSuffix.toString())
+        listItem.remove() //use the identifier from the button to remove the list item from the list
+
+
+    }
+
+    const createNewListItem = () => {
+        try {
+            input = document.getElementById("task-input")
+
+            if (input.value === "" || null || undefined) {
+                alert("Please enter a value") // dont allow empty submissions
+                return
+            }
+            else {
+                let list = document.getElementById("list")
+                let newlistItem = document.createElement("li") // create new list item
+                newlistItem.textContent = input.value // set value for new item
+                newlistItem.id = "li" + taskidSuffix.toString() // set id for new list item
+
+                let buttonComplete = document.createElement("button") // create new button
+                buttonComplete.innerText = "Complete"
+
+                buttonComplete.id = "completeButton" + taskidSuffix.toString() //add identifier to button
+
+                taskidSuffix += 1 // increment for multiple items
+
+
+                buttonComplete.onclick = completeTask //set onclick for new list item button
+
+                newlistItem.append(buttonComplete) //add button to list item
+
+                list.append(newlistItem) //add new list item to list
+
+                input.value = "" //clear input field
+            }
+        }
+        catch (error) {
+            console.log(error) // log error for troubleshooting 
+        }
+    }
+</script>
